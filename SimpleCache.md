@@ -47,6 +47,8 @@ public V get(K key) {
 Here we know when an entry expired, however we don't evict it. This will leave the entry in the map forever and eventually cause OOM.
 We can put the logic inside computeIfPresent and return null so that the map will remove the value automatically.
 
+It needs to check null for the key as well. Also the calculation `System.currentTimeMillis() - entry.getTimestamp()` can be improved for performance by using `expired_timestamp = currentTimeMillis + ttl` in the put method so we don't have to calculate every time.
+
 --------------------------------------------------------------------
 ```
 public int size() {
