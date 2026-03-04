@@ -95,11 +95,13 @@ interface Hierarchy {
  */
 class HierarchyFilter {
     public static Hierarchy filter(Hierarchy hierarchy, java.util.function.IntPredicate nodeIdPredicate) {
+        // Assumed that this is a bounded array
         int n = hierarchy.size();
         int[] resultIds = new int[n];
         int[] resultDepths = new int[n];
         int count = 0;
 
+        // Assumed that the first depth is always 0
         if (n > 0 && hierarchy.depth(0) != 0) {
             throw new RuntimeException("Invalid forest");
         }
@@ -111,6 +113,7 @@ class HierarchyFilter {
         int blockedAtDepth = -1;
         int previousDepth = hierarchy.depth(0);
 
+        // Assumed that we don't have any negative depth value
         for (int i = 0; i < n; i++) {
             int id = hierarchy.nodeId(i);
             int depth = hierarchy.depth(i);
